@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+</head>
+<body>
+	<div align="center">
+		<h2>
+			register new account:
+		</h2>
+		<form action="register" method="post">
+			<table border=1>
+				<tr>
+					<td><input type="text" name="userName"
+						placeholder="Enter Username" /></td>
+				</tr>
+				<tr>
+					<td><input type="password" name="password"
+						placeholder="Enter Password" /></td>
+				</tr>
+				<tr>
+					<td><input type="text" name="fname"
+						placeholder="Enter First Name" /></td>
+				</tr>
+				<tr>
+					<td><input type="text" name="lname"
+						placeholder="Enter Last Name" /></td>
+				</tr>
+				<tr>
+					<td><input type="email" name="email"
+						placeholder="Enter Email" /></td>
+				</tr>
+				<tr>
+					<td><select name="role">
+						<option value="1 admin">Administrator</option>
+						<option value="2 employee">Employee</option>
+						<option value="3 premium">Premium</option>
+						<option value="4 standard">Standard</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Register" />					
+				</tr>
+			</table>
+		</form>
+		<a href="javascript:history.back()">go back</a>
+		
+	</div>
+</body>
+</html>
