@@ -1,7 +1,7 @@
 package com.app.bankingAPI_Spring.models;
 
 public class Role {
-	private int roleId; // primary key
+	private Integer roleId; // primary key
 	private String role; // not null, unique
 	
 	public Role() {

@@ -1,7 +1,7 @@
 package com.app.bankingAPI_Spring.models;
 
 public class AccountStatus {
-	private int statusId; // primary key
+	private Integer statusId; // primary key
 	private String status; // not null, unique
 	
 	public AccountStatus() {
@@ -29,6 +29,7 @@ public class AccountStatus {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 
 	@Override
 	public String toString() {

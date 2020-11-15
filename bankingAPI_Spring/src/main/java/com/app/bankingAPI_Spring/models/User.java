@@ -6,13 +6,15 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 // User model class
 
 public class User {
-	 private int userId;
+	@JsonInclude(Include.NON_NULL)
+	 private Integer userId;
 	 private String username;
 	 @JsonInclude(Include.NON_NULL)
 	 private String password;
 	 private String firstName;
 	 private String lastName;
 	 private String email;
+	 @JsonInclude(Include.NON_NULL)
 	 private Role role;
 	 
 	 public User() {
@@ -84,6 +86,7 @@ public class User {
 	}
 
 	public void setRole(int role) {
+		this.role = new Role();
 		switch(role) {
 			case 1:
 				this.setRole(1, "Administrator");

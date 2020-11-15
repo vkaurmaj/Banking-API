@@ -1,10 +1,15 @@
 package com.app.bankingAPI_Spring.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 public class TransDetails {
 
-	private int targetID;
-	private int sourceID;
-	private double amount;
+	@JsonInclude(Include.NON_NULL)
+	private Integer targetID;
+	@JsonInclude(Include.NON_NULL)
+	private Integer sourceID;
+	private Double amount;
 	
 	public TransDetails() {
 		// TODO Auto-generated constructor stub

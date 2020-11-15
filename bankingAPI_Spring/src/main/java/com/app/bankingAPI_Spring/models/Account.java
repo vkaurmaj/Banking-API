@@ -1,8 +1,8 @@
 package com.app.bankingAPI_Spring.models;
 
 public class Account {
-	private int accountId; // primary key
-	private double balance;  // not null
+	private Integer accountId; // primary key
+	private Double balance;  // not null
 	private AccountStatus status;
 	private AccountType type;
 	
@@ -34,6 +34,28 @@ public class Account {
 		this.status = status;
 	}
 	
+	public void setStatus(int id) {
+		this.status = new AccountStatus();
+		switch(id) {
+			case 1:
+				this.status.setStatus("Pending");
+				break;
+			case 2:
+				this.status.setStatus("Open");
+				break;
+			case 3:
+				this.status.setStatus("Closed");
+				break;
+			case 4:
+				this.status.setStatus("Denied");
+				break;
+			default:
+				return;
+		}
+		
+		this.status.setStatusId(id);
+	}
+	
 	public void setStatus(int id, String status) {
 		this.status = new AccountStatus();
 		this.status.setStatus(status);
@@ -46,6 +68,22 @@ public class Account {
 
 	public void setType(AccountType type) {
 		this.type = type;
+	}
+	
+	public void setType(int id) {
+		this.type = new AccountType();
+		switch(id) {
+			case 1:
+				this.type.setType("Checking");
+				break;
+			case 2:
+				this.type.setType("Savings");
+				break;
+			default:
+				return;
+		}
+		
+		this.type.setTypeId(id);
 	}
 	
 	public void setType(int id, String type) {

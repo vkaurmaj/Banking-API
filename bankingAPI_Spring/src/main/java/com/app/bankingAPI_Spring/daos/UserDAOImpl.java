@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -21,6 +22,8 @@ import com.app.bankingAPI_Spring.models.User;
 
 // Data Access Objects for Users
 	// 1. Outside resources and SQL statements
+		// 1.1 User table update SQL statements
+		// 1.2 User table access SQL statements
 	// 2. User table update methods
 	// 3. User get methods and actions
 
@@ -34,39 +37,34 @@ public class UserDAOImpl implements UserDAO {
 	private JdbcTemplate jdbctemplate;
 	private Logger logger = Logger.getLogger(UserDAOImpl.class.getName());
 	
+	// 1.1 User table update SQL statements
+	private final String UPDATE_SQL = "update users set username=?, pword=?, fname=?, lname=?, email=? where userId = ?";
 	
+	// 1.2 User table access SQL statements
 	private final String INSERT_SQL = "INSERT INTO users(username, pword,fname, lname, email, roleID) values(?,?,?,?,?,?)";
 	private final String FETCH_SQL = "select * from users r join user_roles u on r.roleID=u.roleID";
 	private final String BY_ID = " where userID = ?";
 	private final String BY_LOGIN = " where username=? and pword=?";
-	private final String UPDATE_SQL = "update users set username=?, pword=?, fname=?, lname=?, email=?, roleID=? where userID=?";
 
 //________________________________________________________________________________________________________
 // 2. User table update methods
 	
 	@Override
 	public User updateUser(User user) {
-		KeyHolder holder = new GeneratedKeyHolder();
-		logger.info("createUser(): Creating new user...");
-			jdbctemplate.update(new PreparedStatementCreator() {
-				@Override
-				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-					PreparedStatement ps = connection.prepareStatement(UPDATE_SQL, Statement.RETURN_GENERATED_KEYS);
-					ps.setString(1, user.getUsername());
-					ps.setString(2, user.getPassword());
-					ps.setString(3, user.getFirstName());
-					ps.setString(4, user.getLastName());
-					ps.setString(5, user.getEmail());
-					ps.setInt(6, user.getRole().getRoleId());
-					ps.setInt(7, user.getUserId());
-					return ps;
-				}
-			}, holder);
-			
-		int newUserId = holder.getKey().intValue();
-		logger.info("createUser(): New user created with ID #" + newUserId);
-		user.setUserId(newUserId);
-		return user;
+		logger.info("updateUser(): Updating user...");
+		int update;
+		try {
+			update = jdbctemplate.update(UPDATE_SQL, user.getUsername(), user.getPassword(), 
+								user.getFirstName(), user.getLastName(), user.getEmail(), user.getUserId());
+		} catch (DataAccessException e) {
+			logger.info("updateUser(): ERROR - SQL update failed");
+			return null;
+		}
+		if (update == 1) {
+			logger.info("updateUser(): User updated with ID #" + user.getUserId());
+			return user;
+		}
+		return null;
 	}
 
 	@Override
@@ -94,7 +92,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 //________________________________________________________________________________________________________
-// 3. User get methods and actions
+// 3. User access methods and actions
 	
 	@Override
 	public List<User> getAllUsers() {
