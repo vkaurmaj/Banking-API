@@ -14,7 +14,7 @@ The Banking API manages the bank accounts of its users. It will be managed by th
 ### User
 
 The User model keeps track of and the formatting of a user's information. The User model contains the Role model as well, which is used to
-keep track of the user's role: __Administrator__, ___Employee__, __Premium__, and __Standard__.
+keep track of the user's role: __Administrator__, __Employee__, __Premium__, and __Standard__.
 
   User:
     - userID (int)
