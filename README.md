@@ -1,5 +1,5 @@
 # Banking API
-Banking endpoints written in Java 8 using [Spring](https://spring.io/), [Maven](https://maven.apache.org/), and a [Tomcat](https://tomcat.apache.org/) HTTP server.
+Banking endpoints written in Java 8 using [Spring](https://spring.io/), [Maven](https://maven.apache.org/), JDBC w/ [MySQL](https://dev.mysql.com/downloads/mysql/) and a [Tomcat](https://tomcat.apache.org/) HTTP server.
 
 The Banking API manages the bank accounts of its users. It will be managed by the Bank's employees and admins. Employees and Admins count as Standard users with additional abilities.
 * Employees can view all customer information, but not modify in any way.
