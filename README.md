@@ -1,4 +1,4 @@
-# Banking API
+# \textcolor{brown}{Banking API}
 Banking endpoints written in Java using [Spring](https://spring.io/), [Maven](https://maven.apache.org/), and a [Tomcat](https://tomcat.apache.org/) HTTP server.
 
 The Banking API manages the bank accounts of its users. It will be managed by the Bank's employees and admins. Employees and Admins count as Standard users with additional abilities.
@@ -34,5 +34,5 @@ public class Role {
 ```
 ### Account
 
-
+The Account model keeps track of and the formatting of an account's information. The Account model contains the AccountStatus and A
 
