@@ -76,3 +76,12 @@ public class AccountType {
     private Integer typeID;
     private String type;
 }
+```
+
+## Testing
+
+In order to run the test collection, you will need to have [Postman](https://www.postman.com/downloads/) and import 
+the .json file by going to __File__-> __Import__.
+
+Additionally, you will need to ensure that the environmental variable for __base_url__ is set correctly:
+ * base_url | http://{your-hostname}:{your_port}/bankingAPI_Spring
