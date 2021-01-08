@@ -80,7 +80,7 @@ public class AccountType {
 ## Running
 
 * __Step 1__: Initialize and fill in the required SQL database using the scripts provided.
-* __Step 2__: Using your favorite flavor of IDE, edit the __application.properties__ file;
+* __Step 2__: Using your favorite flavor of IDE, edit the __application.properties__ file, located in the __resources__ folder; 
               edit the __url__, __username__, and __password__ fields accordingly for your datasource.
 * __Step 3__: Initialize the HTTP server and run the API
 
