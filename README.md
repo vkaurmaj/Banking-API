@@ -77,11 +77,22 @@ public class AccountType {
     private String type;
 }
 ```
+## Running
+
+* __Step 1__: Initialize and fill in the required SQL database using the scripts provided.
+* __Step 2__: Using your favorite flavor of IDE, edit the __application.properties__ file;
+              edit the __url__, __username__, and __password__ fields accordingly for your datasource.
+* __Step 3__: Initialize the HTTP server and run the API
+
+From here, you are open to send requests to the API using the proper URIs. Examples of these URIs are 
+contained within the provided collection of tests.
 
 ## Testing
 
+** The Banking API must be running for tests to be successful **
+
 In order to run the test collection, you will need to have [Postman](https://www.postman.com/downloads/) and import 
-the .json file by going to __File__-> __Import__.
+the __.json__ file by going to __File__-> __Import__.
 
 Additionally, you will need to ensure that the environmental variable for __base_url__ is set correctly:
- * base_url | http://{your-hostname}:{your_port}/bankingAPI_Spring
+ * base_url | http://{your-hostname}:{your-port}/bankingAPI_Spring
