@@ -91,8 +91,8 @@ public class AuthController {
 				logger.info("registerUser(): Successfully registered user");
 				return new ResponseEntity<Object>(registered, HttpStatus.CREATED);
 			}
-			logger.warning("registerUser(): Invalid permissions access attempted");
-			return ResponseEntity.badRequest().body(new Message("Invalid permissions for registration"));
+			logger.warning("registerUser(): Unauthorized user access");
+			return new ResponseEntity<Object>(new Message("Unauthorized access"), HttpStatus.UNAUTHORIZED);
 		}
 		
 		logger.warning("registerUser(): ERROR - Unauthorized access: requires login");

@@ -181,7 +181,7 @@ public class AccountController {
 	public ResponseEntity<Object> createAccount(@PathVariable("id") Integer id, @RequestBody Account acc, HttpSession session) {
 		logger.info("createAccount(): Creating new account...");
 		Integer sId = (Integer) session.getAttribute("ID");
-		String role = (String) session.getAttribute("Role");
+		String role = (String) session.getAttribute("ROLE");
 		
 		if (role.equals("Administrator") || role.equals("Employee") || sId.equals(id)) {
 			 Account result = accountsDB.createAccount(id, acc);

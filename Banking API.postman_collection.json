@@ -1,0 +1,1187 @@
+{
+	"info": {
+		"_postman_id": "6bd9ceba-b4f6-4258-b17c-83c0a5990f9a",
+		"name": "Banking API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d1b3239c-3b89-48d0-9c65-90e21f3870df",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Admin login\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.userId).to.eql(1);",
+									"    pm.expect(jsonData.username).to.eql(\"bankadmin1\");",
+									"    pm.expect(jsonData.firstName).to.eql(\"Bill\");",
+									"    pm.expect(jsonData.lastName).to.eql(\"Willson\");",
+									"    pm.expect(jsonData.email).to.eql(\"bw@gmail.com\");",
+									"    pm.expect(jsonData.role.roleId).to.eql(1);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"bankadmin1\",\n    \"password\": \"admin1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register new user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bbb76c63-a598-43d7-82b9-c731ebd5cbe5",
+								"exec": [
+									"pm.variables.set(\"username\", pm.variables.replaceIn('{{$randomUserName}}'));",
+									"pm.variables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));",
+									"pm.variables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+									"pm.variables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));",
+									"pm.variables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "11cea915-6723-441f-a95c-3d3949d930c9",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Your test name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.username).to.eql(pm.variables.get(\"username\"));",
+									"    pm.expect(jsonData.password).to.eql(pm.variables.get(\"password\"));",
+									"    pm.expect(jsonData.firstName).to.eql(pm.variables.get(\"firstName\"));",
+									"    pm.expect(jsonData.lastName).to.eql(pm.variables.get(\"lastName\"));",
+									"    pm.expect(jsonData.email).to.eql(pm.variables.get(\"email\"));",
+									"    pm.expect(jsonData.role.roleId).to.eql(4);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"{{username}}\",\n    \"password\" : \"{{password}}\",\n    \"firstName\": \"{{firstName}}\",\n    \"lastName\": \"{{lastName}}\",\n    \"email\": \"{{email}}\",\n    \"role\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2dc8ec3a-c3be-40ae-b289-952cf0445d3d",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ff3a9cb1-52d9-4ae8-b155-edc6801a1e62",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update standard user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c9fa10ee-150f-4bfd-b4ae-932d9168a95d",
+								"exec": [
+									"pm.variables.set(\"username\", pm.variables.replaceIn('{{$randomUserName}}'));",
+									"pm.variables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));",
+									"pm.variables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+									"pm.variables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));",
+									"pm.variables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "81323567-03e7-420f-b80b-9db2f2702327",
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.username).to.eql(pm.variables.get(\"username\"));",
+									"    pm.expect(jsonData.firstName).to.eql(pm.variables.get(\"firstName\"));",
+									"    pm.expect(jsonData.lastName).to.eql(pm.variables.get(\"lastName\"));",
+									"    pm.expect(jsonData.email).to.eql(pm.variables.get(\"email\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"{{username}}\",\n    \"password\" : \"{{password}}\",\n    \"firstName\": \"{{firstName}}\",\n    \"lastName\": \"{{lastName}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/7/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"7",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all accounts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9055c43f-2476-4e5c-ac62-6c67e4d97423",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accounts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get accounts by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4a1f85c1-eea8-4cbd-871a-010e56e85b7a",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accounts/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get accounts by status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bda87165-ef66-4754-8c3e-545aa82cc0e0",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accounts/status/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"status",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get accounts by user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "237f2799-e121-489c-bf00-7cdd2cdda489",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accounts/owner/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"owner",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create account",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b34e14aa-ea01-40f7-aad2-69084b579c83",
+								"exec": [
+									"pm.variables.set(\"balance\", pm.variables.replaceIn('{{$randomInt}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "809ee5ba-e2a2-4462-9d3b-d751b269dd0a",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"balance\": {{balance}},\n    \"status\": 2,\n    \"type\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/accounts/7/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"7",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update account",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f310b12c-0d84-4267-8ddd-1367d85f2b6e",
+								"exec": [
+									"pm.variables.set(\"balance\", pm.variables.replaceIn('{{$randomInt}}'));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "8217688c-681f-4294-939a-69e218ac53a0",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									"",
+									"pm.test(\"Your test name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.balance).to.eql(parseInt(pm.variables.get('balance')));",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": 3,\n    \"balance\": {{balance}},\n    \"status\": 2,\n    \"type\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/accounts/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "386ef64d-f975-46f7-90e9-a32fdc08430e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1485fccf-5901-4b08-b519-d3777b730fc4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"You have successfully logged out of bankadmin1\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a3b82d77-ae47-4a15-a093-5ec24e191614",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Employee login\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.userId).to.eql(2);",
+									"    pm.expect(jsonData.username).to.eql(\"bankempl1\");",
+									"    pm.expect(jsonData.firstName).to.eql(\"Jill\");",
+									"    pm.expect(jsonData.lastName).to.eql(\"Killson\");",
+									"    pm.expect(jsonData.email).to.eql(\"jk@gmail.com\");",
+									"    pm.expect(jsonData.role.roleId).to.eql(2);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"bankempl1\",\n    \"password\": \"empl1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register new user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "baeab383-a5a1-432f-8923-44c2fa749660",
+								"exec": [
+									"pm.variables.set(\"username\", pm.variables.replaceIn('{{$randomUserName}}'));",
+									"pm.variables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));",
+									"pm.variables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+									"pm.variables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));",
+									"pm.variables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1239dd4c-330c-49b7-a80f-56261a4f7310",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([401]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('Unauthorized access');",
+									" ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"{{username}}\",\n    \"password\" : \"{{password}}\",\n    \"firstName\": \"{{firstName}}\",\n    \"lastName\": \"{{lastName}}\",\n    \"email\": \"{{email}}\",\n    \"role\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1773d335-ec01-486b-b60d-273e0439e118",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "351f581a-1f60-42ff-9313-77da270ad96f",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update standard user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "933392aa-fe4d-4201-9569-83ff852fcfbd",
+								"exec": [
+									"pm.variables.set(\"username\", pm.variables.replaceIn('{{$randomUserName}}'));",
+									"pm.variables.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'));",
+									"pm.variables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+									"pm.variables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));",
+									"pm.variables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "dac91f1f-840a-4862-886e-89341208dde8",
+								"exec": [
+									"pm.test(\"Unsuccessful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([401]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									"",
+									"pm.test(\"Message check\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Unauthorized access\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"{{username}}\",\n    \"password\" : \"{{password}}\",\n    \"firstName\": \"{{firstName}}\",\n    \"lastName\": \"{{lastName}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/7/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"7",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all accounts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7468132-3025-420d-80ce-78c33e8e07c9",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accounts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get accounts by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0659b88-85a1-4a3b-9000-bbed489ff89e",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accounts/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get accounts by status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55780674-68f0-4798-afa7-290afc815809",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accounts/status/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"status",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get accounts by user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6bed87c9-2104-4358-86f2-36df3c8988d0",
+								"exec": [
+									"pm.test(\"Successful GET request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accounts/owner/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"owner",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create account",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "965a398a-d6ea-4087-a0a2-20883b7ef4d3",
+								"exec": [
+									"pm.variables.set(\"balance\", pm.variables.replaceIn('{{$randomInt}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "c3265150-f6fa-4e11-873f-3472b08d1817",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"balance\": {{balance}},\n    \"status\": 2,\n    \"type\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/accounts/7/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"7",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update account",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4ced8c2f-e482-4eae-a06b-7d1017375a78",
+								"exec": [
+									"pm.variables.set(\"balance\", pm.variables.replaceIn('{{$randomInt}}'));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f3d8da6a-c70d-4b6d-98ee-e8e744013f34",
+								"exec": [
+									"pm.test(\"Unsuccessful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([401]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('Unauthorized access');",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": 3,\n    \"balance\": {{balance}},\n    \"status\": 2,\n    \"type\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/accounts/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5fe905a6-5652-4414-b8c0-d1fef7e0a734",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ba9bed5e-b37a-4275-815b-ae116fe6939b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"You have successfully logged out of bankempl1\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

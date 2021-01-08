@@ -41,15 +41,16 @@ public class AccountDAOImpl implements AccountDAO {
 	private final String WITHDRAW = "update accounts set balance = balance - ? where accID = ?";
 	private final String DEPOSIT = "update accounts set balance = balance + ? where accID = ?";
 	private final String INSERT_SQL = "insert into accounts(balance, statusID, typeID) values (?, ? ,?)";
-	private final String INSERT_COMPLEMENT = "insert into users_accounts(userID, accID) values (?, ?)";
+	private final String INSERT_COMPLEMENT = "insert into user_accounts(userID, accID) values (?, ?)";
 	
 	// 1.2 Account table access SQL statements
 	private final String FETCH_SQL = "select a.accID as accID, userID, balance, statusID, typeID "
 									+ "from accounts a join user_accounts u on u.accID = a.accID";
-	private final String BY_ID = " where accID = ?";
+	private final String BY_ID = " where u.accID = ?";
 	private final String BY_STATUS = " where statusID = ?";
 	private final String BY_UID = " where userID = ?";
 	private final String UPDATE_SQL = "update accounts set balance = ?, statusID = ?, typeID = ? where accID = ?";
+	
 //________________________________________________________________________________________________________
 // 2. Account table update methods
 	

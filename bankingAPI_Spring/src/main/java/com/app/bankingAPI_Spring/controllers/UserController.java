@@ -3,7 +3,6 @@ package com.app.bankingAPI_Spring.controllers;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,7 +47,7 @@ public class UserController {
 			}
 		}
 		logger.warning("getAllUsers(): Unauthorized user access");
-		return new ResponseEntity<Object>(new Message("Unauthorized user"), HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<Object>(new Message("Unauthorized access"), HttpStatus.UNAUTHORIZED);
 	}
 
 	@GetMapping("{id}")
@@ -66,15 +65,15 @@ public class UserController {
 				logger.warning("getUserByID(): ERROR - User not found");
 				return new ResponseEntity<Object>(new Message("User not found"), HttpStatus.NOT_FOUND);
 			}
-			logger.warning("getUserByID(): ERROR - Improper credentials for this content");
-			return ResponseEntity.badRequest().body(new Message("Unauthorized acess: Improper credentials for this content"));
+			logger.warning("getUserByID(): ERROR - Unauthorized access");
+			return new ResponseEntity<Object>(new Message("Unauthorized access"), HttpStatus.UNAUTHORIZED);
 		}
 		logger.warning("getUserByID(): ERROR - Unauthorized access: requires login");
 		return ResponseEntity.badRequest().body(new Message("Unauthorized access: requires login"));
 	}
 	
-	@PutMapping("update")
-	public ResponseEntity<Object> updateUser(@PathParam("id") Integer id, @RequestBody User user, HttpSession session) {
+	@PutMapping("{id}/update")
+	public ResponseEntity<Object> updateUser(@PathVariable("id") Integer id, @RequestBody User user, HttpSession session) {
 		logger.info("updateUser(): Updating user...");
 		Integer sId = (Integer) session.getAttribute("ID");
 		String role = (String) session.getAttribute("ROLE");		
@@ -89,8 +88,8 @@ public class UserController {
 				logger.warning("updateUser(): ERROR - Update failed");
 				return ResponseEntity.badRequest().body(new Message("Update failed"));
 			}
-			logger.warning("updateUser(): ERROR - Improper credentials for this content");
-			return ResponseEntity.badRequest().body(new Message("Unauthorized acess: Improper credentials for this content"));
+			logger.warning("updateUser(): ERROR - Unauthorized access");
+			return new ResponseEntity<Object>(new Message("Unauthorized access"), HttpStatus.UNAUTHORIZED);
 		}
 		logger.warning("updateUser(): ERROR - Unauthorized access: requires login");
 		return ResponseEntity.badRequest().body(new Message("Unauthorized access: requires login"));
